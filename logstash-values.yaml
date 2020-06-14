@@ -35,37 +35,44 @@ logstashPipeline:
             add_tag => ["data_access"]
             remove_field => "message"
             patterns_dir => ["./patterns"]
+            break_on_match true
         }
         grok {
             match => { "message" => ["(?m)%{TIMESTAMP_ISO8601:timestamp2}:%{LOGLEVEL:loglevel}:DataAccessLogManager:%{WORD:event}:%{NUMBER:unix_epoch}:%{JSON:json_string}"] }
             add_tag => ["data_access"]
             remove_field => "message"
             patterns_dir => ["./patterns"]
+            break_on_match true
         }
         grok {
             match => { "message" => ["(?m)%{TIMESTAMP_ISO8601:timestamp}:%{LOGLEVEL:loglevel}:%{DATA:role}:%{DATA:event} %{BASE16FLOAT:client_id}:%{USERNAME:user_id} %{GREEDYDATA:pii_lines}"] }
             add_tag => ["data_access"]
             remove_field => "message"
+            break_on_match true
         }
         grok {
             match => { "message" => ["(?m)%{TIMESTAMP_ISO8601:timestamp}:%{LOGLEVEL:loglevel}:%{DATA:role}:%{NUMBER:client_id} %{GREEDYDATA:log} in %{BASE16FLOAT:seconds}"] }
             add_tag => ["services"]
             remove_field => "message"
+            break_on_match true
         }
         grok {
             match => { "message" => ["(?m)%{TIMESTAMP_ISO8601:timestamp}:%{LOGLEVEL:loglevel}:%{DATA:role}:%{GREEDYDATA:log}: took %{BASE16FLOAT}"] }
             add_tag => ["services"]
             remove_field => "message"
+            break_on_match true
         }
         grok {
             match => { "message" => ["(?m)%{TIMESTAMP_ISO8601:timestamp}:%{LOGLEVEL:loglevel}:%{DATA:logger}:%{GREEDYDATA:event}"] }
             add_tag => ["services"]
             remove_field => "message"
+            break_on_match true
         }
         grok {
             match => { "message" => ["(?m)%{GREEDYDATA:log}"] }
             add_tag => ["services"]
             remove_field => "message"
+            break_on_match true
         }
       }
     }
