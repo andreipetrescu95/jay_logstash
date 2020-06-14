@@ -33,7 +33,6 @@ logstashPipeline:
         grok {
             match => { "message" => ["(?m)%{SYSLOG5424SD:timestamp2} %{WORD:event}:%{NUMBER:unix_epoch}:%{JSON:json_string}","(?m)%{TIMESTAMP_ISO8601:timestamp2}:%{LOGLEVEL:loglevel}:DataAccessLogManager:%{WORD:event}:%{NUMBER:unix_epoch}:%{JSON:json_string}","(?m)%{TIMESTAMP_ISO8601:timestamp}:%{LOGLEVEL:loglevel}:%{DATA:role}:%{DATA:event} %{BASE16FLOAT:client_id}:%{USERNAME:user_id} %{GREEDYDATA:pii_lines}"] }
             add_tag => ["data_access"]
-            remove_field => "message"
             patterns_dir => ["./patterns"]
             break_on_match => true
         }
@@ -41,7 +40,6 @@ logstashPipeline:
           grok {
               match => { "message" => ["(?m)%{TIMESTAMP_ISO8601:timestamp}:%{LOGLEVEL:loglevel}:%{DATA:role}:%{NUMBER:client_id} %{GREEDYDATA:log} in %{BASE16FLOAT:seconds}","(?m)%{TIMESTAMP_ISO8601:timestamp}:%{LOGLEVEL:loglevel}:%{DATA:role}:%{GREEDYDATA:log}: took %{BASE16FLOAT}","(?m)%{TIMESTAMP_ISO8601:timestamp}:%{LOGLEVEL:loglevel}:%{DATA:logger}:%{GREEDYDATA:event}","(?m)%{GREEDYDATA:log}"] }
               add_tag => ["services"]
-              remove_field => "message"
               break_on_match => true
               remove_tag => ["_grokparsefailure"]
           }
@@ -51,7 +49,6 @@ logstashPipeline:
     filter {
       if "data_access" in [tags] {
         mutate { add_field => { "[@metadata][target_index]" => "data_access-%{+yyyy.MM.dd}" } }
-        mutate { add_field => { "EventDate" => "%{@timestamp}" } }
       } 
       else if "services" in [tags] {
         mutate { add_field => { "[@metadata][target_index]" => "services-%{+yyyy.MM.dd}" } }
