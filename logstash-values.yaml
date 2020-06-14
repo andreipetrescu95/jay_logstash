@@ -82,7 +82,7 @@ logstashPipeline:
     }
     output {
       elasticsearch {
-        hosts => "elasticsearch-master.efk:9200"
+        hosts => "elasticsearch-client.default.svc:9200"
         manage_template => false
         index => "%{[@metadata][target_index]}"
       }
