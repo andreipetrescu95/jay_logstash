@@ -200,9 +200,6 @@ service:
     - name: "forward"
       type: ClusterIP
       port: 24224
-    - name: "k8s"
-      type: ClusterIP
-      port: 24225
 
 serviceMonitor:
   ## If true, a ServiceMonitor CRD is created for a prometheus operator
@@ -249,13 +246,6 @@ extraConfigMaps:
       @type forward
       tag applogs
       port 24224
-      bind 0.0.0.0
-    </source>
-
-    <source>
-      @type forward
-      tag kubernetes
-      port 24225
       bind 0.0.0.0
     </source>
 
@@ -323,14 +313,6 @@ extraConfigMaps:
       hosts elasticsearch-master.elasticsearch.svc:9200
       logstash_format true
       logstash_prefix fd-services
-      type_name log
-    </match>
-
-    <match kubernetes>
-      @type elasticsearch
-      hosts elasticsearch-master.elasticsearch.svc:9200
-      logstash_format true
-      logstash_prefix kubernetes
       type_name log
     </match>
 
