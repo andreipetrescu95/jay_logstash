@@ -302,7 +302,7 @@ extraConfigMaps:
 
     <match data_access>
       @type elasticsearch
-      hosts elasticsearch-master.elasticsearch.svc:9200
+      hosts elasticsearch-client.default.svc:9200
       logstash_format true
       logstash_prefix fd-data-access
       type_name log
@@ -310,7 +310,7 @@ extraConfigMaps:
 
     <match services>
       @type elasticsearch
-      hosts elasticsearch-master.elasticsearch.svc:9200
+      hosts elasticsearch-client.default.svc:9200
       logstash_format true
       logstash_prefix fd-services
       type_name log
