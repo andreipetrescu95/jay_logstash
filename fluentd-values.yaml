@@ -1,5 +1,5 @@
 image:
-  repository: cloudhero/fluentd_elasticsearch
+  repository: canada/fluentd-with-plugins
   tag: v3.0.2
   pullPolicy: Always
   ## Optionally specify an array of imagePullSecrets.
