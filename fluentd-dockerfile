@@ -1,0 +1,3 @@
+FROM quay.io/fluentd_elasticsearch/fluentd
+
+RUN fluent-gem install fluent-plugin-rewrite-tag-filter fluent-plugin-grok-parser 

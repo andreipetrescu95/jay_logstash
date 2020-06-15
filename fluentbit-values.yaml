@@ -1,0 +1,60 @@
+backend:
+  type: forward
+  forward:
+    host: fluentd-fluentd-elasticsearch-k8s.fluentd
+    port: 24225
+    tls: "off"
+    tls_verify: "on"
+    tls_debug: 1
+    shared_key:
+  es:
+    host: elasticsearch
+    port: 9200
+    # Elastic Index Name
+    index: kubernetes_cluster
+    type: flb_type
+    logstash_prefix: kubernetes_cluster
+    replace_dots: "On"
+    logstash_format: "On"
+    retry_limit: "False"
+    time_key: "@timestamp"
+    # Optional username credential for Elastic X-Pack access
+    http_user:
+    # Password for user defined in HTTP_User
+    http_passwd:
+    # Optional TLS encryption to ElasticSearch instance
+    tls: "off"
+    tls_verify: "on"
+    # TLS certificate for the Elastic (in PEM format). Use if tls=on and tls_verify=on.
+    tls_ca: ""
+    # TLS debugging levels = 1-4
+    tls_debug: 1
+  splunk:
+    host: 127.0.0.1
+    port: 8088
+    token: ""
+    send_raw: "on"
+    tls: "on"
+    tls_verify: "off"
+    tls_debug: 1
+    message_key: "kubernetes"
+  stackdriver: {}
+
+  ##
+  ## Ref: http://fluentbit.io/documentation/current/output/http.html
+  ##
+  http:
+    host: 127.0.0.1
+    port: 80
+    uri: "/"
+    http_user:
+    http_passwd:
+    tls: "off"
+    tls_verify: "on"
+    tls_debug: 1
+    ## Specify the data format to be used in the HTTP request body
+    ## Can be either 'msgpack' or 'json'
+    format: msgpack
+    # json_date_format: double or iso8601
+    headers: []
+
